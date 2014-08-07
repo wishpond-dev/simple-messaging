@@ -1,17 +1,10 @@
 module SimpleMessaging
   class MessageQueue
 
-    def enqueue
-      raise "Implement"
-    end
-
-    def poll
-      raise "Implement"
-    end
-
-    def pop
-      raise "Implement"
-    end
+    # Deriving classes need to implement the following methods
+    # def enqueue(message)
+    # def poll(&block)
+    # def pop(&block)
 
     def self.unregister_queue(name)
       @queues[name] = nil

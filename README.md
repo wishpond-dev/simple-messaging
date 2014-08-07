@@ -19,9 +19,19 @@ Or install it yourself as:
 
 ## Usage
 
+Set the driver name manually
+```ruby
+  SimpleMessaging::MessageQueue.driver_name = "sqs"
+```
+
+or set it in your config/messaging.yml file
+
 ```ruby
   instance = SimpleMessaging::MessageQueue.instance(queue_name)
   instance.enqueue(message)
+  instance.poll do |message|
+    p message
+  end
 ```
 
 ## Contributing

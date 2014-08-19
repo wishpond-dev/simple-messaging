@@ -36,12 +36,12 @@ module SimpleMessaging
     private
 
     def queue_identifier
-      case environment
+      case MessageQueue.environment
       when "development"
         prefix = (ENV["SQS_IDENTIFIER"] || `whoami`).strip
         "#{prefix}-development"
       else
-        environment
+        MessageQueue.environment
       end
     end
 

@@ -42,13 +42,13 @@ module SimpleMessaging
   private
 
   def queue_identifier
-    environment
+    MessageQueue.environment
   end
 
   def rabbit_configs
     rabbit_config_file = Pathname.new(Dir.pwd).join('config', 'rabbit.yml').to_s
     if File.exist? rabbit_config_file
-      YAML.load(File.open(rabbit_config_file).read)[environment]
+      YAML.load(File.open(rabbit_config_file).read)[MessageQueue.environment]
     else
       { host: "127.0.0.1" }
     end

@@ -23,7 +23,7 @@ module SimpleMessaging
       return @queues[name] if @queues[name]
 
       @driver_class ||=
-        case driver_name
+        case self.driver_name
         when 'sqs'
           MessageQueue::SQS
         when 'rabbit'
@@ -41,7 +41,7 @@ module SimpleMessaging
 
       if File.exist? messaging_config_file
         messaging_configs = YAML.load(File.open(messaging_config_file).read)
-        messaging_configs[environment]['driver']
+        messaging_configs[self.environment]['driver']
       else
         raise "Messaging driver isn't set"
       end
@@ -49,7 +49,7 @@ module SimpleMessaging
 
     protected
 
-    def environment
+    def self.environment
       if defined? Rails
         Rails.env
       else

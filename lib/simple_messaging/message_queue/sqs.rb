@@ -7,23 +7,23 @@ module SimpleMessaging
     attr_reader :name
 
     def initialize(name)
-      @sqs = AWS::SQS.new
-      @queue = @sqs.queues.create(queue_name(name))
+      @sqs = Aws::SQS::Client.new
+      @queue_url = @sqs.create_queue(queue_name: queue_name(name.to_s)).queue_url
       @name = name
     end
 
     def enqueue(message)
-      @queue.send_message(message)
+      @sqs.send_message(queue_url: @queue_url, message_body: message)
     end
 
     def pop(&block)
-      @queue.receive_message do |message|
-        yield message.body
-      end
+      response = @sqs.receive_message(queue_url: @queue_url)
+      yield response.messages.first.body
     end
 
     def poll(&block)
-      @queue.poll do |message|
+      poller = Aws::SQS::QueuePoller.new(@queue_url)
+      poller.poll do |message|
         yield message.body
       end
     end

@@ -53,7 +53,7 @@ module SimpleMessaging
       if defined? Rails
         Rails.env
       else
-        ENV["RUBY_ENV"] || "development"
+        ENV["RAILS_ENV"] || "development"
       end
     end
 

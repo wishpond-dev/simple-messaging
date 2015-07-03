@@ -29,7 +29,7 @@ module SimpleMessaging
         when 'rabbit'
           MessageQueue::Rabbit
         else
-          raise 'Messaging driver "#{driver_name}" not implemented'
+          raise "Messaging driver '#{driver_name}' not implemented"
         end
 
       @queues[name] = @driver_class.new(name)
@@ -37,6 +37,7 @@ module SimpleMessaging
 
     def self.driver_name
       return @driver_name if @driver_name
+      return ENV["MESSAGING_DRIVER"].strip if ENV["MESSAGING_DRIVER"]
       messaging_config_file = Pathname.new(Dir.pwd).join('config', 'messaging.yml').to_s
 
       if File.exist? messaging_config_file
